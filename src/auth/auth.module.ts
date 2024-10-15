@@ -17,7 +17,9 @@ import { KakaoStrategy } from './strategies/kakao.strategy';
       signOptions: { expiresIn: '60s' },
     }),
   ],
-  providers: [AuthService, LocalStrategy, JwtStrategy, NaverStrategy, KakaoStrategy],
+  providers: [AuthService,
+     //LocalStrategy, JwtStrategy, NaverStrategy, KakaoStrategy
+    ],
   exports: [AuthService],
 })
 export class AuthModule {}
