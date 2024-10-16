@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { KakaoAuthDto } from './dto/kakao-auth.dto';
 
 @Injectable()
 export class AuthService {
@@ -13,20 +14,8 @@ export class AuthService {
     return null;
   }
 
-  async validateUserByJwt(payload: any): Promise<any> {
-    // JWT를 통한 사용자 검증 로직 구현
-    return { id: payload.sub, username: payload.username };
+  async validateKakaoLogin(dto:KakaoAuthDto): Promise<any> {
+    return { id: 1, username: 'test' };
   }
 
-  async validateOAuthLogin(profile: any, provider: string): Promise<any> {
-    // 소셜 로그인 사용자 검증 로직 구현
-    return { id: profile.id, username: profile.displayName, provider };
-  }
-
-  async login(user: any) {
-    const payload = { username: user.username, sub: user.id };
-    return {
-      access_token: this.jwtService.sign(payload),
-    };
-  }
 }

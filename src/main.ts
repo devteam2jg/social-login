@@ -9,7 +9,7 @@ async function bootstrap() {
   // 정적 파일 제공 설정
   app.useStaticAssets(join(__dirname, '..', 'public'));
 
-  // 템플릿 엔진 설정
+  //템플릿 엔진 설정
   app.setBaseViewsDir(join(__dirname, '..', 'views'));
   app.setViewEngine('ejs');
 
