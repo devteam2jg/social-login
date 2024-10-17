@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Page</title>
+  <script>
+    // 쿠키에 accessToken 설정
+    function setCookie(name, value, days) {
+      let expires = "";
+      if (days) {
+        const date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = "; expires=" + date.toUTCString();
+      }
+      document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    }
+
+    // 쿠키에서 accessToken 가져오기
+    function getCookie(name) {
+      const nameEQ = name + "=";
+      const ca = document.cookie.split(';');
+      for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+      }
+      return null;
+    }
+
+    // /auth/test 엔드포인트에 접근
+    function accessTestEndpoint() {
+      fetch('/auth/test', {
+        method: 'GET',
+        credentials: 'include' // 쿠키를 포함하여 요청
+      })
+      .then(response => {
+        if (!response.ok) {
+          console.log(response);
+          throw new Error('Network response was not ok');
+        }
+        return response.text();
+      })
+      .then(data => {
+        document.getElementById('result').innerText = data;
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        document.getElementById('result').innerText = 'Error: ' + error.message;
+      });
+    }
+
+    // 페이지 로드 시 쿠키 설정 (테스트용)
+    window.onload = function() {
+      setCookie('accessToken', 'your-jwt-token-here', 1); // 여기에 실제 JWT 토큰을 넣으세요
+    }
+  </script>
+</head>
+<body>
+  <h1>Test Page</h1>
+  <button onclick="accessTestEndpoint()">Access Test Endpoint</button>
+  <button onclick="window.location.href='/auth/login'">Go to Login Page</button>
+  <p id="result"></p>
+</body>
+</html>
